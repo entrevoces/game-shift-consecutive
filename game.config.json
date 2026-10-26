@@ -1,0 +1,27 @@
+{
+  "gameId": "shift-consecutive",
+  "label": "Night Shift",
+  "domainIds": [
+    "oregon-medical",
+    "oregon-legal",
+    "ontario-real-estate",
+    "oregon-cultivation",
+    "california-tax",
+    "ai-technology"
+  ],
+  "competences": [
+    "listening",
+    "speech-production",
+    "meaning-transfer",
+    "integrated-performance",
+    "cognitive-interpreting"
+  ],
+  "stages": [
+    6,
+    7,
+    8
+  ],
+  "engineUrl": "http://127.0.0.1:8787",
+  "offlineSeed": "concepts-subset.json",
+  "version": 1
+}

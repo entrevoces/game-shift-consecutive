@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Night Shift — One night, one voice · ENTRE VOCES</title>
+<meta name="description" content="A night-clinic adventure: catch what they mean before the river takes it, stack your notes, and carry people across.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="game-header">
+  <a class="back-link" id="hubLink" href="https://entrevoces.github.io/">← Hub</a>
+  <div class="title-block">
+    <h1>Night Shift</h1>
+    <p class="tagline">The waiting room is full. Your notebook is empty. Catch meaning with your hands.</p>
+  </div>
+  <span id="syncBadge" class="pill pill-local">Local-only</span>
+</header>
+
+<main id="app">
+  <section id="screen-title" class="screen is-active">
+    <div class="panel panel-hero night-hero">
+      <p class="kicker">Consecutive adventure · Listening · Notes · Memory</p>
+      <h2>Tonight, people will trust you with the exact words that decide things.</h2>
+      <p class="hero-short">Speech flows past like a river. <strong>Catch</strong> the idea-orbs. <strong>Stack</strong> them in your notebook. Then the voice leaves — and you <strong>render</strong> from your notes alone. That gap is the job.</p>
+      <p id="titleContext" class="hint">Opening the waiting room…</p>
+      <div class="night-pick" role="group" aria-label="Choose tonight">
+        <button id="storyBtn" class="btn btn-primary btn-large" type="button">Story night</button>
+        <button id="waitingBtn" class="btn btn-large" type="button">Waiting-room night</button>
+      </div>
+      <p class="hint" id="nightExplainer">Story night continues a real visit/case. Waiting-room night mints fresh people aimed at your gaps.</p>
+      <div id="queuePreview" class="queue-preview"></div>
+    </div>
+  </section>
+
+  <section id="screen-play" class="screen">
+    <div class="hud">
+      <span id="hudNight" class="pill pill-strong"></span>
+      <span id="hudPerson" class="pill"></span>
+      <span class="meter-wrap">Stamina <span class="meter"><span id="staminaFill"></span></span></span>
+      <span class="meter-wrap">Hearts <span id="heartsBox" class="hearts" aria-label="Understanding hearts"></span></span>
+      <span id="hudTokens" class="pill"></span>
+    </div>
+    <div id="queueStrip" class="queue-strip" aria-label="Waiting queue"></div>
+
+    <div class="play-layout">
+      <div class="river-card">
+        <div class="river-head">
+          <span id="speakerBadge" class="speaker-badge">Speaker</span>
+          <span id="phaseLabel" class="phase-label">Listen &amp; catch</span>
+          <button id="playBtn" class="btn btn-primary btn-small" type="button">Play voice</button>
+          <button id="repeatBtn" class="btn btn-small" type="button">Repeat (token)</button>
+        </div>
+        <canvas id="riverCanvas" width="680" height="300"></canvas>
+        <p id="riverHint" class="river-hint">Tap the glowing orbs as they drift — numbers, names, negations first. What you miss, the river keeps.</p>
+        <div class="effort-row" aria-label="Effort load">
+          <span>Listening <span class="effort"><span id="effL"></span></span></span>
+          <span>Memory <span class="effort"><span id="effM"></span></span></span>
+          <span>Production <span class="effort"><span id="effP"></span></span></span>
+        </div>
+        <blockquote id="sourceText" class="source-text">Press Play voice. Ears first, eyes second.</blockquote>
+      </div>
+
+      <div class="note-card">
+        <div class="note-head"><h3>Notebook</h3><span class="hint">Vertical. Ideas, not transcript.</span></div>
+        <div id="noteStack" class="note-stack" aria-label="Your caught notes"></div>
+        <div class="symbol-row" id="symbolRow" aria-label="Rozan symbols"></div>
+        <label class="jot-label">Jot (abbreviate ruthlessly)
+          <input id="jotInput" type="text" autocomplete="off" placeholder="e.g. 500mg → 2×/d § food">
+        </label>
+        <div class="note-actions">
+          <button id="toRenderBtn" class="btn btn-primary" type="button">Voice leaves — render from notes</button>
+        </div>
+        <div id="renderZone" hidden>
+          <label class="jot-label">Your rendering
+            <textarea id="answerInput" rows="3" placeholder="Speak it as them, to them. Your notes stay open — the source does not."></textarea>
+          </label>
+          <div class="note-actions">
+            <button id="recordBtn" class="btn" type="button" aria-pressed="false">Hold to speak</button>
+            <button id="revealBtn" class="btn" type="button">Peek at source (token)</button>
+            <button id="submitBtn" class="btn btn-primary" type="button">Carry it across</button>
+            <button id="disputeBtn" class="btn btn-ghost" type="button" hidden>That transcript is wrong</button>
+          </div>
+        </div>
+        <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+        <div id="heardBox" class="heard-box" hidden></div>
+        <div class="note-actions">
+          <button id="nextBtn" class="btn btn-primary" type="button" hidden>Next person</button>
+          <button id="endShiftBtn" class="btn btn-ghost" type="button">End night</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="screen-end" class="screen">
+    <div class="panel panel-hero end-panel">
+      <p class="kicker">Night report</p>
+      <h2 id="endTitle">The waiting room is quiet.</h2>
+      <div id="endStats"></div>
+      <div id="endExplain" class="explain"></div>
+      <div class="play-actions">
+        <button id="againBtn" class="btn btn-primary btn-large" type="button">Another night</button>
+        <a class="btn btn-large" id="endHubLink" href="https://entrevoces.github.io/">Hub</a>
+      </div>
+    </div>
+  </section>
+</main>
+<footer><p>Night Shift · ENTRE VOCES · Faithful beats literal. Your notes are the bridge — build them well.</p></footer>
+<div id="fxLayer" aria-hidden="true"></div>
+<script type="module" src="game.js"></script>
+</body>
+</html>
