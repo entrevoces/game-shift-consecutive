@@ -4,6 +4,7 @@
 // from paper alone. Gile's two phases, as two screens your hands can feel.
 import * as core from "./engine/engine-core/index.js";
 import { EngineClient } from "./engine/engine-client/engine-client.js";
+import { Juice } from "./engine/game-kit/juice.js";
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -389,6 +390,7 @@ async function endNight() {
   showScreen("screen-end");
 }
 
+Juice.observeFeedback("#feedback");
 boot().catch((e) => {
   $("#titleContext").textContent = `The night failed to load (${e.message}). Reload — the waiting room refills itself.`;
   $("#storyBtn").disabled = true; $("#waitingBtn").disabled = true;
