@@ -348,7 +348,8 @@ function submitRender() {
     : assess.explanation;
   const heard = $("#heardBox");
   heard.hidden = false;
-  heard.innerHTML = `<strong>What they heard:</strong> “${esc(answer)}”<br><span class="hint">Preserved: ${esc(assess.preserved.join(", ") || "core gist")} · Missed: ${esc(assess.omitted.join(", ") || "nothing load-bearing")} · Notes craft ${(notes.score * 100).toFixed(0)}% — ${esc(notes.feedback[0] || "")}</span>`;
+  const unitsLine = (assess.ideaUnits || []).map((u) => `${u.preserved ? "✓" : "✗"} ${esc(u.text)}`).join(" · ");
+  heard.innerHTML = `<strong>What they heard:</strong> “${esc(answer)}”<br><span class="hint">Preserved: ${esc(assess.preserved.join(", ") || "core gist")} · Missed: ${esc(assess.omitted.join(", ") || "nothing load-bearing")} · Idea units ${Math.round((assess.coverage ?? 1) * 100)}% carried${unitsLine ? `<br>${unitsLine}` : ""} · Notes craft ${(notes.score * 100).toFixed(0)}% — ${esc(notes.feedback[0] || "")}</span>`;
   floatNote(faithful ? "Understood" : "It wobbled", faithful);
   engine.recordEvidence({
     conceptId: turn.concept.conceptId, areaId: turn.data.areaId, gameId: "shift-consecutive",
